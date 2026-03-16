@@ -216,6 +216,8 @@ of the prefecture (city) in the target year (specified via the {opt prefecture()
 {phang}{bf:Target County} (default {it:coun_to}, e.g., coun_2020): The name 
 of the county/district in the target year (specified via the {opt county()} option).
 
+{phang}{bf:Origin Code / Province / Prefecture}: When {opt byname} is specified and {opt inprovince()} or {opt inprefecture()} are omitted, the command will also generate {it:code_from}, {it:prov_from}, and {it:pref_from} (e.g., code_2000, prov_2000, pref_2000) to help you identify the 6-digit code and superior jurisdictions matched for your input strings.
+
 {phang}{bf:weight}: A numeric float. Equals 1.0 for 1:1 matches. For 1-to-N splits, 
 it equals 1/N. Empirical researchers should multiply absolute aggregate variables 
 (e.g., population, GDP) by this weight to conserve totals.

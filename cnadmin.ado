@@ -1,4 +1,4 @@
-*! Version:     1.0.0
+*! Version:     1.0.1
 *! Author:      Qiteng Wang
 *! Affiliation: Business School, Nanjing University
 *! E-mail:      qitengwang@foxmail.com 
@@ -77,14 +77,27 @@ program define cnadmin
             rename city_from `inprefecture'
             local join_keys "`inprefecture' `join_keys'"
         }
+        else {
+            qui rename city_from pref_`from'
+        }
+        
         if "`inprovince'" != "" {
             rename prov_from `inprovince'
             local join_keys "`inprovince' `join_keys'"
         }
+        else {
+            qui rename prov_from prov_`from'
+        }
+        
+        qui rename code_from code_`from'
     }
     else {
         rename code_from `source_var'
         local join_keys "`source_var'"
+        
+        qui rename name_from coun_`from'
+        qui rename city_from pref_`from'
+        qui rename prov_from prov_`from'
     }
     
     if "`code'" != "code_to" {
@@ -107,7 +120,7 @@ program define cnadmin
     
     qui replace _type = 0 if _merge == 1
     
-    * Define value labels in English
+    * Define value labels
     cap label drop match_lbl
     qui label define match_lbl 0 "Unmatched" 1 "Perfect Match" 2 "Renamed/Changed" 3 "Complex/Split"
     qui label values _type match_lbl
@@ -305,12 +318,12 @@ def build_crosswalk(csv_path, out_path, start_year, end_year):
 
             cw_df['_type'] = [get_match_type(i, r) for i, r in cw_df.iterrows()]
             
-            cols_to_keep = ['code_from', 'name_from', 'city_from', 'prov_from', 'code_to', 'prov_to', 'city_to', 'name_to', 'weight', '_type']
+            cols_to_keep = ['code_from', 'prov_from', 'city_from', 'name_from', 'code_to', 'prov_to', 'city_to', 'name_to', 'weight', '_type']
             cw_df = cw_df[cols_to_keep]
             
             cw_df.to_csv(out_path, index=False, encoding='utf-8')
         else:
-            pd.DataFrame(columns=['code_from', 'name_from', 'city_from', 'prov_from', 'code_to', 'prov_to', 'city_to', 'name_to', 'weight', '_type']).to_csv(out_path, index=False, encoding='utf-8')
+            pd.DataFrame(columns=['code_from', 'prov_from', 'city_from', 'name_from', 'code_to', 'prov_to', 'city_to', 'name_to', 'weight', '_type']).to_csv(out_path, index=False, encoding='utf-8')
 
     except Exception as e:
         err_msg = traceback.format_exc()
