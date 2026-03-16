@@ -1,6 +1,13 @@
-# cnadmin: Matching Chinese Administrative Divisions Across Years
+<h1 align="center">
+  <span>cnadmin</span>
+</h1>
+<p align="center">
+  <span align="center">cnadmin is a Stata command matching Chinese administrative divisions across years.</span>
+</p>
+<div align="center">
+[简体中文](docs/README.md) | English
+</div>
 
-[**🇨🇳 阅读中文版使用说明 (Read in Chinese)**](README_zh.md)
 
 **`cnadmin`** is a robust Stata command powered by Python that resolves the "spatial polygon inconsistency" problem in Chinese empirical panel data. 
 
@@ -8,7 +15,7 @@ In Chinese economic and sociological research, matching administrative divisions
 
 ## 🌟 Key Features
 
-- **Forward & Backward Tracing:** Map historical census data (e.g., 2000) to modern boundaries (e.g., 2020), or trace modern firm-level data back to historical boundaries.
+- **Forward & Backward Tracing:** Map historical administrative divisions data (e.g., 2000) to modern boundaries (e.g., 2020), or trace modern administrative divisions data back to historical boundaries.
 - **Split Weighting:** When a historical county is split into N modern districts, it automatically generates a `1/N` weight variable, maintaining spatial attribute conservation for aggregate variables (e.g., population, GDP).
 - **Name Resolution:** Automatically extracts the historically accurate province, prefecture (city), and county names for any code at the specified target year.
 - **Name-based Matching:** Supports matching by Chinese string names with province and city anchor variables to prevent homonymous jurisdiction confusion.
@@ -28,7 +35,7 @@ In Chinese economic and sociological research, matching administrative divisions
 You can install the latest version directly from this GitHub repository. Just type the following in your Stata command window:
 
 ```stata
-net install cnadmin, from("[https://raw.githubusercontent.com/Taboo725/cnadmin/main](https://raw.githubusercontent.com/Taboo725/cnadmin/main)") replace
+net install cnadmin, from("https://raw.githubusercontent.com/Taboo725/cnadmin/main") replace
 ```
 
 ## 🚀 Quick Start & Examples
@@ -48,7 +55,6 @@ cnadmin 2020 2010 mod_code, code(hist_code) prov(p_name) pref(c_name) coun(d_nam
 cnadmin 2000 2020 counname, byname inprov(provname) inpref(cityname) code(code_2020)
 ```
 
-> **Tip:** After matching, empirical researchers can simply use `replace pop = pop * weight` to properly apportion absolute aggregate variables.
 
 ## 📖 Full Documentation
 After installation, you can access the detailed official help file within Stata by typing:
@@ -58,7 +64,7 @@ help cnadmin
 
 ## 🙏 Data Source & Acknowledgments
 
-The core historical change logs and GB/T 2260 code mappings are sourced from the excellent open-source repository maintained at [yescallop/areacodes](https://github.com/yescallop/areacodes). I express my deepest gratitude to their contributors for standardizing decades of Chinese civil affairs data.
+The core historical change logs and GB/T 2260 code mappings are sourced from the excellent open-source repository maintained at [yescallop/areacodes](https://github.com/yescallop/areacodes). I express my deepest gratitude to their contributors for standardizing decades of Chinese administrative divisions data.
 
 ## 👨‍💻 Author
 

@@ -1,14 +1,23 @@
-# cnadmin: 中国行政区划跨期匹配与面板数据工具
+<h1 align="center">
+  <span>cnadmin</span>
+</h1>
+<p align="center">
+  <span align="center">cnadmin 是一个用于中国行政区划跨期匹配的Stata命令。</span>
+</p>
+<div align="center">
+简体中文 | [English](docs/README_EN.md)
+</div>
 
-**`cnadmin`** 是一个基于 Python 图网络算法的 Stata 外部命令，专门用于解决中国实证研究中令人头疼的跨年行政区划匹配问题。
 
-在中国面板数据（Panel Data）的构建过程中，频繁的行政区划变更（如撤县设区、拆分、合并）使得跨年份的数据匹配极其困难。简单的 1:1 匹配往往会导致严重的样本流失（Attrition Bias）。`cnadmin` 通过底层时间线网络，能够自动追溯区划沿革，生成准确的过渡映射表（Crosswalk），并为拆分样本提供科学的折算权重。
+**`cnadmin`** 是一个基于 Python 图网络算法的 Stata 外部命令，专门用于解决中国实证研究中跨年行政区划匹配的问题。
+
+在中国面板数据（Panel Data）的构建过程中，频繁的行政区划变更（如撤县设区、拆分、合并）使得跨年份的数据匹配极其困难。简单的 1:1 匹配往往会导致严重的样本流失（Attrition Bias）。`cnadmin` 通过底层时间线网络，能够自动追溯区划沿革，生成准确的过渡映射表（Crosswalk），并为拆分样本提供折算权重。
 
 ## 🌟 核心特性
 
-- **双向时间推演：** 既支持将历史普查数据（如 2000 年）顺推至现代边界，也支持将现代微观企业数据（如 2020 年）逆推回历史政策边界。
+- **双向时间推演：** 既支持将历史行政区划数据（如 2000 年）顺推至现代，也支持将现代行政区划数据（如 2020 年）逆推回历史。
 - **空间权重拆分：** 当历史上的一个县在现代被拆分为 N 个区时，程序会自动生成 `1/N` 的折算权重（`weight`）。实证研究者可借此对 GDP、人口等总量指标进行平分加总，保证数据的空间守恒。
-- **动态名称提取：** 自动匹配并生成目标年份下极其准确的省、地级市、区县三级规范中文名称。
+- **动态名称提取：** 自动匹配并生成目标年份下极其准确的省级、地级、县级三级规范中文名称。
 - **支持名称匹配：** 在缺乏行政代码（GB Code）时，支持直接使用纯中文名称匹配，并提供省、市联合锚定功能，彻底防范“同名区县”（如多地级市均有“鼓楼区”）带来的笛卡尔错配。
 
 ## 🛠️ 环境依赖
@@ -26,7 +35,7 @@
 您可以直接通过 GitHub 链接在 Stata 中一键安装最新版本：
 
 ```stata
-net install cnadmin, from("[https://raw.githubusercontent.com/Taboo725/cnadmin/main](https://raw.githubusercontent.com/Taboo725/cnadmin/main)") replace
+net install cnadmin, from("https://raw.githubusercontent.com/Taboo725/cnadmin/main") replace
 ```
 
 ## 🚀 快速开始与使用示例
@@ -46,7 +55,6 @@ cnadmin 2020 2010 mod_code, code(hist_code) prov(p_name) pref(c_name) coun(d_nam
 cnadmin 2000 2020 counname, byname inprov(provname) inpref(cityname) code(code_2020)
 ```
 
-> **实证提示：** 匹配完成后，研究者仅需执行类似 `replace pop = pop * weight` 的操作，即可完成总量数据的拆分过渡。
 
 ## 📖 官方帮助文档
 安装完成后，您可以在 Stata 中随时输入以下命令查看详尽的英文官方帮助文档：
@@ -56,7 +64,7 @@ help cnadmin
 
 ## 🙏 数据来源与致谢
 
-本工具底层所依赖的中国行政区划沿革数据库与 GB/T 2260 代码映射表，深度参考并使用了 GitHub 优秀的开源项目 [yescallop/areacodes](https://github.com/yescallop/areacodes)。在此向该仓库的贡献者们致以最诚挚的感谢，是他们长期对民政部历史数据的数字化整理让本工具成为可能。
+本工具底层所依赖的中国行政区划沿革数据库与 GB/T 2260 代码映射表，使用了 GitHub 优秀的开源项目 [yescallop/areacodes](https://github.com/yescallop/areacodes)。在此向该仓库的贡献者们致以最诚挚的感谢，是他们长期对中国行政区划的整理和维护让本工具成为可能。
 
 ## 👨‍💻 作者
 
