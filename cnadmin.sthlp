@@ -41,7 +41,7 @@ Backward tracing is fully supported if {it:to_year} < {it:from_year}.{p_end}
 
 {p 8 8 2}
 {it:source_var} is the {help varname} containing the origin administrative 
-codes (or names if {opt byname} is specified).{p_end}
+codes (or names if {bf:byname} is specified).{p_end}
 
 
 {synoptset 28 tabbed}{...}
@@ -61,9 +61,9 @@ county variable; default is {it:coun_to} (e.g., coun_2020){p_end}
 {synopt:{opt byn:ame}}indicate that {it:source_var} contains county names 
 (strings) instead of GB codes{p_end}
 {synopt:{opth inprov:ince(varname)}}specify the origin province name 
-variable; highly recommended with {opt byname} to anchor homonyms{p_end}
+variable; highly recommended with {bf:byname} to anchor homonyms{p_end}
 {synopt:{opth inpref:ecture(varname)}}specify the origin prefecture 
-name variable; highly recommended with {opt byname}{p_end}
+name variable; highly recommended with {bf:byname}{p_end}
 
 {syntab:Output Control}
 {synopt:{opt nogen:erate}}suppress the creation of the {it:_type} 
@@ -138,9 +138,20 @@ The accuracy of {cmd:cnadmin} fundamentally relies on its underlying tracking
 database of China's administrative divisions ({it:cnadmin_data.csv}).
 
 {p 4 4 2}
-{bf:Data Source Declaration:} The core historical change logs and GB/T 2260 
+The core historical change logs and GB/T 2260 
 code mappings are sourced from the excellent open-source repository maintained at:
 {break}{browse "https://github.com/yescallop/areacodes":https://github.com/yescallop/areacodes}
+
+{p 4 4 2}
+{bf:▲Attention▲:}
+{break}If the name of the superior administrative division of a county 
+(i.e. prefecture level) does not exist, it should be referred to as 
+"直辖", including municipalities and counties directly administered 
+by provinces (e.g. Dongcheng District, Beijing City (北京市东城区); 
+Jiyuan City, Henan Province (河南省济源市); Xiantao City, Hubei 
+Province (湖北省仙桃市); Wenchang City, Hainan Province (海南省文昌市)). 
+Attention should be paid to this especially when using the {opt byname} 
+option with province and prefecture anchor variables.
 
 
 {marker options}{...}
@@ -162,13 +173,13 @@ to dynamic names such as {it:prov_2020}, {it:pref_2020}, and {it:coun_2020}
 {dlgtab:Name-based Matching}
 
 {phang}
-{opt byname} alters the core behavior of the command. By default, {cmd:cnadmin} 
+{bf:byname} alters the core behavior of the command. By default, {cmd:cnadmin} 
 assumes {it:source_var} contains 6-digit administrative codes. If your dataset 
 only has Chinese strings for county names (e.g., "东城区"), specify this option.
 
 {phang}
 {opth inprovince(varname)} and {opth inprefecture(varname)} are strongly 
-advised when using {opt byname}. China has numerous homonymous jurisdictions 
+advised when using {bf:byname}. China has numerous homonymous jurisdictions 
 across different provinces (e.g., "鼓楼区" exists in Nanjing, Fuzhou, and Xuzhou). 
 Providing the origin province and city variables anchors the match and prevents 
 catastrophic Cartesian misallocation.

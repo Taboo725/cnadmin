@@ -20,7 +20,7 @@ In Chinese economic and sociological research, matching administrative divisions
 - **Forward & Backward Tracing:** Map historical administrative divisions data (e.g., 2000) to modern boundaries (e.g., 2020), or trace modern administrative divisions data back to historical boundaries.
 - **Split Weighting:** When a historical county is split into N modern districts, it automatically generates a `1/N` weight variable, maintaining spatial attribute conservation for aggregate variables (e.g., population, GDP).
 - **Name Resolution:** Automatically extracts the historically accurate province, prefecture (city), and county names for any code at the specified target year.
-- **Name-based Matching:** Supports matching by Chinese string names with province and city anchor variables to prevent homonymous jurisdiction confusion.
+- **Name-based Matching:** Supports matching by Chinese string names with province and prefecture anchor variables to prevent homonymous jurisdiction confusion.
 
 ## 🛠️ Requirements & Setup
 
