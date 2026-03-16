@@ -1,15 +1,21 @@
-<h1 align="center">
-  <span>cnadmin</span>
-</h1>
-<p align="center">
-  <span align="center">一个用于中国行政区划跨期匹配的Stata命令。</span>
-</p>
 <div align="center">
 
-  简体中文 | <a href="README_en.md">English</a>
-  
-</div>
+<h1>
+  <span>cnadmin</span>
+</h1>
+<p>
+  <span>一个用于中国行政区划跨期匹配的Stata命令。</span>
+</p>
 
+<!-- icon -->
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Taboo725/cnadmin?label=last%20version)
+![GitHub Release Date](https://img.shields.io/github/release-date/Taboo725/cnadmin)
+![StataMin](https://img.shields.io/badge/stata-%3E%3D%2016.0-blue)
+
+<!-- language -->
+简体中文 | [English](README_en.md) 
+
+</div>
 
 **`cnadmin`** 是一个基于 Python 图网络算法的 Stata 外部命令，专门用于解决中国实证研究中跨年行政区划匹配的问题。
 
@@ -67,10 +73,3 @@ help cnadmin
 ## 🙏 数据来源与致谢
 
 本工具底层所依赖的中国行政区划沿革数据库与 GB/T 2260 代码映射表，使用了 GitHub 优秀的开源项目 [yescallop/areacodes](https://github.com/yescallop/areacodes)。在此向该仓库的贡献者们致以最诚挚的感谢，是他们长期对中国行政区划的整理和维护让本工具成为可能。
-
-## 👨‍💻 作者
-
-**王骐腾 (Qiteng Wang)** 南京大学 商学院  
-邮箱: qitengwang@foxmail.com  
-
-如果您在使用过程中遇到任何 Bug 或有功能建议，欢迎提交 Issue！

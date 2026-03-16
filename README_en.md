@@ -1,15 +1,21 @@
-<h1 align="center">
-  <span>cnadmin</span>
-</h1>
-<p align="center">
-  <span align="center">A Stata command matching Chinese administrative divisions across years.</span>
-</p>
 <div align="center">
 
-  <a href="README.md">简体中文</a> | English
-  
-</div>
+<h1>
+  <span>cnadmin</span>
+</h1>
+<p>
+  <span>A Stata command matching Chinese administrative divisions across years.</span>
+</p>
 
+<!-- icon -->
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Taboo725/cnadmin?label=last%20version)
+![GitHub Release Date](https://img.shields.io/github/release-date/Taboo725/cnadmin)
+![StataMin](https://img.shields.io/badge/stata-%3E%3D%2016.0-blue)
+
+<!-- language -->
+[简体中文](README.md) | English
+
+</div>
 
 **`cnadmin`** is a robust Stata command powered by Python that resolves the "spatial polygon inconsistency" problem in Chinese empirical panel data. 
 
@@ -67,10 +73,3 @@ help cnadmin
 ## 🙏 Data Source & Acknowledgments
 
 The core historical change logs and GB/T 2260 code mappings are sourced from the excellent open-source repository maintained at [yescallop/areacodes](https://github.com/yescallop/areacodes). I express my deepest gratitude to their contributors for standardizing decades of Chinese administrative divisions data.
-
-## 👨‍💻 Author
-
-**Qiteng Wang** Business School, Nanjing University  
-Email: qitengwang@foxmail.com  
-
-If you encounter any bugs or have suggestions, please feel free to open an issue!
