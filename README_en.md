@@ -5,7 +5,9 @@
   <span align="center">A Stata command matching Chinese administrative divisions across years.</span>
 </p>
 <div align="center">
+
   <a href="README.md">简体中文</a> | English
+  
 </div>
 
 

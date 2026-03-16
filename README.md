@@ -5,7 +5,9 @@
   <span align="center">一个用于中国行政区划跨期匹配的Stata命令。</span>
 </p>
 <div align="center">
+
   简体中文 | <a href="README_en.md">English</a>
+  
 </div>
 
 
