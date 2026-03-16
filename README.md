@@ -2,10 +2,10 @@
   <span>cnadmin</span>
 </h1>
 <p align="center">
-  <span align="center">cnadmin 是一个用于中国行政区划跨期匹配的Stata命令。</span>
+  <span align="center">一个用于中国行政区划跨期匹配的Stata命令。</span>
 </p>
 <div align="center">
-简体中文 | [English](README_en.md)
+  简体中文 | <a href="README_en.md">English</a>
 </div>
 
 

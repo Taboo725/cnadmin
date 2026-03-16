@@ -2,10 +2,10 @@
   <span>cnadmin</span>
 </h1>
 <p align="center">
-  <span align="center">cnadmin is a Stata command matching Chinese administrative divisions across years.</span>
+  <span align="center">A Stata command matching Chinese administrative divisions across years.</span>
 </p>
 <div align="center">
-[简体中文](docs/README.md) | English
+  <a href="README.md">简体中文</a> | English
 </div>
 
 
