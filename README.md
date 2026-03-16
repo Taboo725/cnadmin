@@ -2,73 +2,73 @@
   <span>cnadmin</span>
 </h1>
 <p align="center">
-  <span align="center">cnadmin is a Stata command matching Chinese administrative divisions across years.</span>
+  <span align="center">cnadmin 是一个用于中国行政区划跨期匹配的Stata命令。</span>
 </p>
 <div align="center">
-[简体中文](docs/README.md) | English
+简体中文 | [English](README_en.md)
 </div>
 
 
-**`cnadmin`** is a robust Stata command powered by Python that resolves the "spatial polygon inconsistency" problem in Chinese empirical panel data. 
+**`cnadmin`** 是一个基于 Python 图网络算法的 Stata 外部命令，专门用于解决中国实证研究中跨年行政区划匹配的问题。
 
-In Chinese economic and sociological research, matching administrative divisions (counties/districts) across different years is notoriously difficult due to frequent boundary changes, such as county-to-district upgrades (撤县设区), mergers, and complex splits. Simple 1:1 matching often leads to severe data attrition. `cnadmin` solves this by automatically tracking historical lineage, generating accurate crosswalks, and computing proper apportionment weights.
+在中国面板数据（Panel Data）的构建过程中，频繁的行政区划变更（如撤县设区、拆分、合并）使得跨年份的数据匹配极其困难。简单的 1:1 匹配往往会导致严重的样本流失（Attrition Bias）。`cnadmin` 通过底层时间线网络，能够自动追溯区划沿革，生成准确的过渡映射表（Crosswalk），并为拆分样本提供折算权重。
 
-## 🌟 Key Features
+## 🌟 核心特性
 
-- **Forward & Backward Tracing:** Map historical administrative divisions data (e.g., 2000) to modern boundaries (e.g., 2020), or trace modern administrative divisions data back to historical boundaries.
-- **Split Weighting:** When a historical county is split into N modern districts, it automatically generates a `1/N` weight variable, maintaining spatial attribute conservation for aggregate variables (e.g., population, GDP).
-- **Name Resolution:** Automatically extracts the historically accurate province, prefecture (city), and county names for any code at the specified target year.
-- **Name-based Matching:** Supports matching by Chinese string names with province and city anchor variables to prevent homonymous jurisdiction confusion.
+- **双向时间推演：** 既支持将历史行政区划数据（如 2000 年）顺推至现代，也支持将现代行政区划数据（如 2020 年）逆推回历史。
+- **空间权重拆分：** 当历史上的一个县在现代被拆分为 N 个区时，程序会自动生成 `1/N` 的折算权重（`weight`）。实证研究者可借此对 GDP、人口等总量指标进行平分加总，保证数据的空间守恒。
+- **动态名称提取：** 自动匹配并生成目标年份下极其准确的省级、地级、县级三级规范中文名称。
+- **支持名称匹配：** 在缺乏行政代码（GB Code）时，支持直接使用纯中文名称匹配，并提供省、市联合锚定功能，彻底防范“同名区县”（如多地级市均有“鼓楼区”）带来的笛卡尔错配。
 
-## 🛠️ Requirements & Setup
+## 🛠️ 环境依赖
 
-`cnadmin` relies on Stata's native Python integration.
-1. **Stata Version:** Stata 16.0 or higher.
-2. **Python Environment:** A configured Python environment. (If not automatically detected, use `set python_exec "path\to\python.exe", permanently` in Stata).
-3. **Dependencies:** The `pandas` library. Install it via Stata console:
+`cnadmin` 利用了 Stata 内置的 Python 引擎。使用前请确保：
+1. **Stata 版本：** 16.0 及以上版本。
+2. **Python 环境：** 电脑已安装 Python。（若 Stata 未自动识别，可在 Stata 中运行 `set python_exec "你的python.exe路径", permanently` 进行绑定）。
+3. **依赖包：** 需要 `pandas` 库。可在 Stata 命令窗口中直接运行以下代码安装：
    ```stata
    shell pip install pandas
    ```
 
-## 📦 Installation
+## 📦 安装方法
 
-You can install the latest version directly from this GitHub repository. Just type the following in your Stata command window:
+您可以直接通过 GitHub 链接在 Stata 中一键安装最新版本：
 
 ```stata
 net install cnadmin, from("https://raw.githubusercontent.com/Taboo725/cnadmin/main") replace
 ```
 
-## 🚀 Quick Start & Examples
+## 🚀 快速开始与使用示例
 
-**1. Basic Forward Code Matching** Map historical 2000 census county codes to modern 2020 district codes:
+**1. 基础顺向代码匹配** 将 2000 年的历史普查县级代码映射到 2020 年的区划代码：
 ```stata
 cnadmin 2000 2020 countycode_2000, code(countycode_2020)
 ```
 
-**2. Backward Tracing with Custom Variables and Clean Output** Trace 2020 firm locations back to 2010 boundaries for a DID policy evaluation, suppressing the `_type` quality variable:
+**2. 逆向回溯与纯净输出** 将 2020 年的企业微观位置逆向追溯到 2010 年的边界（常用于 DID 政策评估），自定义生成的变量名，并隐藏内部匹配状态提示：
 ```stata
 cnadmin 2020 2010 mod_code, code(hist_code) prov(p_name) pref(c_name) coun(d_name) nogen
 ```
 
-**3. Name-based Matching with Anchors** When GB codes are missing, use strings to match, anchoring with province and city variables to avoid homonym confusion:
+**3. 基于中文名称的双重锚定匹配** 当数据集中缺少代码时，直接使用中文名称进行映射，并用原始省、市变量进行联合锚定以防止同名区县误匹配：
 ```stata
 cnadmin 2000 2020 counname, byname inprov(provname) inpref(cityname) code(code_2020)
 ```
 
 
-## 📖 Full Documentation
-After installation, you can access the detailed official help file within Stata by typing:
+## 📖 官方帮助文档
+安装完成后，您可以在 Stata 中随时输入以下命令查看详尽的英文官方帮助文档：
 ```stata
 help cnadmin
 ```
 
-## 🙏 Data Source & Acknowledgments
+## 🙏 数据来源与致谢
 
-The core historical change logs and GB/T 2260 code mappings are sourced from the excellent open-source repository maintained at [yescallop/areacodes](https://github.com/yescallop/areacodes). I express my deepest gratitude to their contributors for standardizing decades of Chinese administrative divisions data.
+本工具底层所依赖的中国行政区划沿革数据库与 GB/T 2260 代码映射表，使用了 GitHub 优秀的开源项目 [yescallop/areacodes](https://github.com/yescallop/areacodes)。在此向该仓库的贡献者们致以最诚挚的感谢，是他们长期对中国行政区划的整理和维护让本工具成为可能。
 
-## 👨‍💻 Author
+## 👨‍💻 作者
 
-**Qiteng Wang** Business School, Nanjing University  
-Email: qitengwang@foxmail.com  
+**王骐腾 (Qiteng Wang)** 南京大学 商学院  
+邮箱: qitengwang@foxmail.com  
 
-If you encounter any bugs or have suggestions, please feel free to open an issue!
+如果您在使用过程中遇到任何 Bug 或有功能建议，欢迎提交 Issue！
