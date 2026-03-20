@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 11.2.0 15mar2026}{...}
+{* *! version 1.0.2 20mar2026}{...}
 {vieweralsosee "[D] merge" "help merge"}{...}
 {vieweralsosee "[D] joinby" "help joinby"}{...}
 {viewerjumpto "Syntax" "cnadmin##syntax"}{...}
@@ -11,12 +11,11 @@
 {viewerjumpto "Examples" "cnadmin##examples"}{...}
 {viewerjumpto "Author" "cnadmin##author"}{...}
 {viewerjumpto "Acknowledgments" "cnadmin##acknowledgments"}{...}
+
 {title:Title}
 
-{p2colset 5 14 16 2}{...}
-{p2col :{bf:cnadmin} {hline 2}}Matching Chinese Administrative Divisions Across Years{p_end}
-{p2colreset}{...}
-
+{pstd}
+    {hi:cnadmin} {hline 2} Matching Chinese Administrative Divisions Across Years
 
 {marker syntax}{...}
 {title:Syntax}
@@ -40,8 +39,8 @@ dataset (e.g., 2000).{p_end}
 Backward tracing is fully supported if {it:to_year} < {it:from_year}.{p_end}
 
 {p 8 8 2}
-{it:source_var} is the {help varname} containing the origin administrative 
-codes (or names if {bf:byname} is specified).{p_end}
+{it:source_var} is the {help varname} containing the origin county administrative 
+codes (or county names if {bf:byname} is specified).{p_end}
 
 
 {synoptset 28 tabbed}{...}
@@ -66,10 +65,12 @@ variable; highly recommended with {bf:byname} to anchor homonyms{p_end}
 name variable; highly recommended with {bf:byname}{p_end}
 
 {syntab:Output Control}
-{synopt:{opt nogen:erate}}suppress the creation of the {it:_type} 
-(match quality) variable{p_end}
+{synopt:{opt noori:gin}}suppress the creation of the origin-year 
+administrative variables{p_end}
 {synopt:{opt nowei:ght}}suppress the creation of the {it:weight} 
 (apportionment weight) variable{p_end}
+{synopt:{opt nogen:erate}}suppress the creation of the {it:_type} 
+(match quality) variable{p_end}
 {synoptline}
 {p2colreset}{...}
 
@@ -86,7 +87,7 @@ matching often leads to severe data attrition in panel datasets.
 {p 4 4 2}
 {cmd:cnadmin} solves this problem by automatically tracking the historical 
 changes of any administrative code or name, generating accurate crosswalks 
-and proper apportionment weights for complex splits.
+and weights for complex splits.
 
 {p 4 4 2}
 {bf:How it works (Python Engine):}
@@ -108,6 +109,18 @@ county is split into N modern districts, maintaining spatial attribute conservat
 {break}  - {bf:Name Resolution:} Automatically extracts the historically accurate 
 names for any code at the specified target year.
 
+{p 4 4 2}
+{bf:▲Attention▲:}
+{break}1. Names of any administrative divisions should be written in {bf:full Chinese} characters.
+{break}2. If the name of the superior administrative division of a county 
+(i.e. prefecture level) does not exist, it should be referred to as 
+"直辖", including municipalities and counties directly administered 
+by provinces (e.g., Dongcheng District, Beijing City (北京市东城区); 
+Jiyuan City, Henan Province (河南省济源市); Xiantao City, Hubei 
+Province (湖北省仙桃市); Wenchang City, Hainan Province (海南省文昌市)). 
+Attention should be paid to this especially when using the {opt byname} 
+option with province and prefecture anchor variables.
+
 
 {marker requirements}{...}
 {title:Requirements & Setup}
@@ -125,7 +138,7 @@ in Stata by running:
 library for data manipulation. You can install it quickly by typing the following 
 into your Stata command window:
 {break}   {cmd:. shell pip install pandas}
-{break}4. {bf:Data File:} The underlying database file {cmd:cnadmin_data.csv} must 
+{break}4. {bf:Data File:} The underlying database file {cmd:cnadmin_data.maint} must 
 be accessible in Stata's system path (e.g., inside your {it:ado/personal} folder) 
 or installed simultaneously via {cmd:net install}.
 
@@ -135,23 +148,13 @@ or installed simultaneously via {cmd:net install}.
 
 {p 4 4 2}
 The accuracy of {cmd:cnadmin} fundamentally relies on its underlying tracking 
-database of China's administrative divisions ({it:cnadmin_data.csv}).
+database of China's administrative divisions ({it:cnadmin_data.maint}), which is 
+essentially a {it:csv} file.
 
 {p 4 4 2}
 The core historical change logs and GB/T 2260 
-code mappings are sourced from the excellent open-source repository maintained at:
-{break}{browse "https://github.com/yescallop/areacodes":https://github.com/yescallop/areacodes}
-
-{p 4 4 2}
-{bf:▲Attention▲:}
-{break}If the name of the superior administrative division of a county 
-(i.e. prefecture level) does not exist, it should be referred to as 
-"直辖", including municipalities and counties directly administered 
-by provinces (e.g. Dongcheng District, Beijing City (北京市东城区); 
-Jiyuan City, Henan Province (河南省济源市); Xiantao City, Hubei 
-Province (湖北省仙桃市); Wenchang City, Hainan Province (海南省文昌市)). 
-Attention should be paid to this especially when using the {opt byname} 
-option with province and prefecture anchor variables.
+code mappings are sourced from the open-source repository 
+maintained at: {browse "https://github.com/yescallop/areacodes":yescallop/areacodes}.
 
 
 {marker options}{...}
@@ -187,22 +190,28 @@ catastrophic Cartesian misallocation.
 {dlgtab:Output Control}
 
 {phang}
-{opt nogenerate} (abbreviation: {opt nogen}) prevents the command from adding 
-the {it:_type} variable to your dataset. The matching quality report will still 
-be printed in the Stata console.
+{opt noorigin} prevents the command from adding 
+the origin-year administrative variables (e.g., {it:code_2000}, {it:prov_2000}) 
+to your dataset. Useful when you only want to append the target-year mapping and 
+keep the dataset clean.
 
 {phang}
-{opt noweight} (abbreviation: {opt nowei}) prevents the command from adding 
+{opt noweight}  prevents the command from adding 
 the {it:weight} variable to your dataset. Useful when you only need jurisdiction 
 mappings and do not intend to calculate apportioned aggregates.
+
+{phang}
+{opt nogenerate} prevents the command from adding 
+the {it:_type} variable to your dataset. The matching quality report will still 
+be printed in the Stata console.
 
 
 {marker generated}{...}
 {title:Generated Variables}
 
 {p 4 4 2}
-Unless suppressed by options, running {cmd:cnadmin} automatically merges the 
-following new variables into your dataset:
+Unless suppressed by options, running {cmd:cnadmin} automatically generates the 
+following new variables in your dataset:
 
 {phang}{bf:Target Code} (default {it:code_to}, e.g., code_2020): The 6-digit 
 administrative code in the target year (specified via the {opt code()} option).
@@ -211,16 +220,19 @@ administrative code in the target year (specified via the {opt code()} option).
 of the province in the target year (specified via the {opt province()} option).
 
 {phang}{bf:Target Prefecture} (default {it:pref_to}, e.g., pref_2020): The name 
-of the prefecture (city) in the target year (specified via the {opt prefecture()} option).
+of the prefecture (City) in the target year (specified via the {opt prefecture()} option).
 
 {phang}{bf:Target County} (default {it:coun_to}, e.g., coun_2020): The name 
 of the county/district in the target year (specified via the {opt county()} option).
 
-{phang}{bf:Origin Code / Province / Prefecture}: When {opt byname} is specified and {opt inprovince()} or {opt inprefecture()} are omitted, the command will also generate {it:code_from}, {it:prov_from}, and {it:pref_from} (e.g., code_2000, prov_2000, pref_2000) to help you identify the 6-digit code and superior jurisdictions matched for your input strings.
+{phang}{bf:Origin Code / Name Variables}: The unique origin-year administrative 
+attributes identified based on your {it:from_year} input 
+(e.g., {it:code_2000}, {it:prov_2000}, {it:pref_2000}, {it:coun_2000}). 
+{break}  - When matching by code (default): generates Origin Province, Prefecture, and County names.
+{break}  - When matching {opt byname}: generates Origin Code, and (if corresponding anchor variables are omitted) Origin Province and Prefecture names.
 
 {phang}{bf:weight}: A numeric float. Equals 1.0 for 1:1 matches. For 1-to-N splits, 
-it equals 1/N. Empirical researchers should multiply absolute aggregate variables 
-(e.g., population, GDP) by this weight to conserve totals.
+it equals 1/N.
 
 {phang}{bf:_type}: An integer indicating the lineage quality of the observation. 
 
@@ -243,7 +255,7 @@ it equals 1/N. Empirical researchers should multiply absolute aggregate variable
 {bf:2. Backward Tracing with Custom Variables and Clean Output}
 
 {p 8 8 2}Trace 2020 firm locations back to 2010 boundaries for a DID policy evaluation:{p_end}
-{p 8 12 2}{cmd:. cnadmin 2020 2010 current_code, code(hist_code) prov(p_name) pref(c_name) coun(d_name) nogen}{p_end}
+{p 8 12 2}{cmd:. cnadmin 2020 2010 current_code, code(hist_code) prov(p_name) pref(c_name) coun(d_name) nogen noori}{p_end}
 
 {p 4 4 2}
 {bf:3. Name-based Matching with Anchors}

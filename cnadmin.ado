@@ -1,13 +1,13 @@
-*! Version:     1.0.1
+*! Version:     1.0.2
 *! Author:      Qiteng Wang
 *! Affiliation: Business School, Nanjing University
 *! E-mail:      qitengwang@foxmail.com 
-*! Date:        2026/03/16                   
+*! Date:        2026/03/20                   
 
 program define cnadmin
     version 16.0
     
-    syntax anything , [CODE(name) PROVince(name) PREFecture(name) COUNty(name) BYName INPROVince(varname) INPREFecture(varname) NOGenerate NOWEIght]
+    syntax anything , [CODE(name) PROVince(name) PREFecture(name) COUNty(name) BYName INPROVince(varname) INPREFecture(varname) NOGenerate NOWEIght NOORIgin]
     
     tokenize `"`anything'"'
     local from `1'
@@ -16,7 +16,7 @@ program define cnadmin
     
     if "`source_var'" == "" | `"`4'"' != "" {
         display as error "Syntax error or missing parameters!"
-        display as error "Usage: cnadmin from_year to_year source_var [, code(var) byname inprov(var) inpref(var) prov(var) pref(var) coun(var) nogen nowei]"
+        display as error "Usage: cnadmin from_year to_year source_var [, code(var) byname inprov(var) inpref(var) prov(var) pref(var) coun(var) nogen nowei noori]"
         exit 198
     }
     
@@ -30,10 +30,10 @@ program define cnadmin
     if "`prefecture'" == "" local prefecture "pref_`to'"
     if "`county'" == "" local county "coun_`to'"
     
-    cap findfile "cnadmin_data.csv"
+    cap findfile "cnadmin_data.maint"
     if _rc {
-        display as error "[Fatal Error] Required database file (cnadmin_data.csv) not found."
-        display as error "Please ensure the package is fully installed. If testing manually, place 'cnadmin_data.csv' in your Stata ado/personal directory."
+        display as error "[Fatal Error] Required database file (cnadmin_data.maint) not found."
+        display as error "Please ensure the package is fully installed. If testing manually, place 'cnadmin_data.maint' in your Stata ado/personal directory."
         exit 198
     }
     local csv_path "`r(fn)'" 
@@ -120,7 +120,6 @@ program define cnadmin
     
     qui replace _type = 0 if _merge == 1
     
-    * Define value labels
     cap label drop match_lbl
     qui label define match_lbl 0 "Unmatched" 1 "Perfect Match" 2 "Renamed/Changed" 3 "Complex/Split"
     qui label values _type match_lbl
@@ -151,6 +150,18 @@ program define cnadmin
     }
     if "`noweight'" != "" {
         cap drop weight
+    }
+    if "`noorigin'" != "" {
+        if "`byname'" == "" {
+            cap drop coun_`from'
+            cap drop pref_`from'
+            cap drop prov_`from'
+        }
+        else {
+            cap drop code_`from'
+            if "`inprefecture'" == "" cap drop pref_`from'
+            if "`inprovince'" == "" cap drop prov_`from'
+        }
     }
 end
 

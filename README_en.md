@@ -17,7 +17,7 @@
 
 </div>
 
-**`cnadmin`** is a robust Stata command powered by Python that resolves the "spatial polygon inconsistency" problem in Chinese empirical panel data. 
+**`cnadmin`** is a Stata command powered by Python that resolves the problem of interannual administrative division matching in Chinese empirical panel data. 
 
 In Chinese economic and sociological research, matching administrative divisions (counties/districts) across different years is notoriously difficult due to frequent boundary changes, such as county-to-district upgrades (撤县设区), mergers, and complex splits. Simple 1:1 matching often leads to severe data attrition. `cnadmin` solves this by automatically tracking historical lineage, generating accurate crosswalks, and computing proper apportionment weights.
 
