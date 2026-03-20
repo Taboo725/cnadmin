@@ -110,16 +110,17 @@ county is split into N modern districts, maintaining spatial attribute conservat
 names for any code at the specified target year.
 
 {p 4 4 2}
-{bf:▲Attention▲:}
+{bf:▲Notice▲:}
 {break}1. Names of any administrative divisions should be written in {bf:full Chinese} characters.
-{break}2. If the name of the superior administrative division of a county 
-(i.e. prefecture level) does not exist, it should be referred to as 
-"直辖", including municipalities and counties directly administered 
-by provinces (e.g., Dongcheng District, Beijing City (北京市东城区); 
+{break}2. When a prefecture-level division does not exist for a county 
+(e.g., municipalities and province-administered counties), use "直辖".
+Examples: Dongcheng District, Beijing City (北京市东城区); 
 Jiyuan City, Henan Province (河南省济源市); Xiantao City, Hubei 
-Province (湖北省仙桃市); Wenchang City, Hainan Province (海南省文昌市)). 
+Province (湖北省仙桃市); Wenchang City, Hainan Province (海南省文昌市).
 Attention should be paid to this especially when using the {opt byname} 
 option with province and prefecture anchor variables.
+{break}3. Data covers 1981—2025, with each year reflecting 
+administrative divisions as of December 31st.
 
 
 {marker requirements}{...}
